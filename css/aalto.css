@@ -1,0 +1,925 @@
+/*
+ * reveal.js theme matching the official Aalto University School of Electrical Engineering
+ * PowerPoint template ("ELEC General Presentation 2026"), white content layouts.
+ *
+ * The template is 13.333 x 7.5 in; this deck is 1280 x 720 px, so 1 pt = 4/3 px and
+ * template coordinates map one to one. Values taken from its masters and layouts:
+ *   - Theme "Aalto ELEC": accent #A987FF with tints #BA9FFF #CBB7FF #DDCFFF #EEE7FF,
+ *     greys #B4B4B4 #E8E8E8 #DCDCDC, black text on white. Fonts: Inter.
+ *   - Margins 43 px. Title at (43, 43): Inter Bold 32 pt, tracking -0.5 pt, 90 % line spacing.
+ *   - Body 20 pt, 8 pt before each paragraph; lists use a round bullet with a 28 px hanging indent.
+ *   - "A!" logomark bottom left at (43, 647), 40.5 x 30.2 px; slide number bottom right, 8 pt bold.
+ *   - Title slide on the accent colour: school logo at (43, 45), 279 x 60 px; a 42 x 3 px black
+ *     rule above the title; title bottom-anchored at y = 360.
+ * The logo and logomark in assets/ are the template's own vector shapes, unmodified.
+ */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../vendor/inter/inter-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../vendor/inter/inter-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../vendor/inter/inter-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+    U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../vendor/inter/inter-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Aalto palette */
+  --aalto-black: #000000;
+  --aalto-white: #ffffff;
+  --aalto-elec: #a987ff; /* School of Electrical Engineering */
+
+  /* Template theme: accent tints and greys */
+  --elec-2: #ba9fff;
+  --elec-3: #cbb7ff;
+  --elec-4: #ddcfff;
+  --elec-wash: #eee7ff;
+  --grey-dark: #b4b4b4;
+  --wash: #e8e8e8;
+  --rule: #dcdcdc;
+
+  /* Text. The template sets all text in black; secondary text uses the Aalto dark grey. */
+  --ink: #000000;
+  --ink-2: #5a5a5a;
+  --ink-3: #5a5a5a;
+
+  /* Template type sizes: 32 pt titles, 20 pt body, 16 pt small text */
+  --fs-title: 42.67px;
+  --fs-body: 26.67px;
+  --fs-small: 21.33px;
+
+  --margin: 43px;
+
+  --r-link-color: var(--ink);
+  --r-controls-spacing: 12px;
+}
+
+html,
+body {
+  background: var(--aalto-white);
+}
+
+.reveal {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.21;
+  color: var(--ink);
+  font-feature-settings: "ss01", "cv11";
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: 0;
+  height: 100%;
+}
+
+/* Every slide holds one .frame that owns the layout of the 1280 x 720 surface.
+   Content sits between the title and y = 630; the strip below holds the logomark and slide number. */
+.frame {
+  position: relative;
+  box-sizing: border-box;
+  width: 1280px;
+  height: 720px;
+  padding: var(--margin) var(--margin) 90px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: url("../assets/aalto-mark.svg") no-repeat 43px 647px / 40.5px 30.2px;
+}
+/* data-n is set from the slide order by the script in index.html */
+.frame::after {
+  content: attr(data-n);
+  position: absolute;
+  right: var(--margin);
+  bottom: var(--margin);
+  font-size: 10.67px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* The title page has no slide number. */
+.frame.title::after {
+  content: none;
+}
+
+/* Keep the slide number clear of the persistent navigation controls. */
+@media screen {
+  .frame::after {
+    right: 152px;
+  }
+}
+
+/* Outline breadcrumb: the trail of talk parts in the bottom strip, level with the logomark and
+   clear of it on the left and of the slide number on the right. Built by the script in index.html
+   from the rows of the outline slide. */
+.crumbs {
+  position: absolute;
+  left: 103px;
+  right: 120px;
+  top: 647px;
+  height: 30.2px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.crumbs .sep {
+  color: var(--grey-dark);
+}
+/* Every crumb carries the rule so the labels keep one baseline; only the current one shows it. */
+.crumbs .crumb {
+  cursor: pointer;
+  padding-bottom: 4px;
+  border-bottom: 3px solid transparent;
+}
+/* The part we are in: black, bold, over the template's short accent rule. */
+.crumbs [aria-current] {
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--aalto-elec);
+}
+@media screen {
+  .crumbs {
+    right: 220px;
+  }
+}
+
+/* Outline slide: one row per part, numbered with the pipeline slide's accent chips. */
+.outline-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+.outline-list li {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+  padding: 24px 0;
+  border-top: 1px solid var(--rule);
+}
+.outline-list li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+.outline-list li:last-child {
+  padding-bottom: 0;
+}
+.outline-list .stage-no {
+  margin-right: 0;
+}
+.outline-list h3 {
+  font-size: var(--fs-body);
+}
+.outline-list p {
+  margin-top: 4px;
+}
+
+/* Problem slide: the opening illustration beside the LOS / NLOS statement.
+   The image is cropped at its blank side walls to leave room for the text. */
+.problem-body {
+  display: grid;
+  grid-template-columns: 640px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+.reveal .problem-body img {
+  display: block;
+  width: 640px;
+  height: 480px;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  object-fit: cover;
+}
+.problem-statement {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.problem-case {
+  padding: 12px 16px 14px;
+  background: var(--wash);
+}
+.problem-case p {
+  margin-top: 4px;
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.problem-hard {
+  background: var(--elec-wash);
+}
+
+/* Tracking-grid stack: eye-level 3D view on 4, top view with the index and path cards below on 4.1.
+   The cost map on 5.2 reuses this layout. */
+.grid-body {
+  display: grid;
+  grid-template-columns: 700px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.grid-body > figure {
+  grid-area: 1 / 1;
+}
+.grid-jobs {
+  grid-area: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.grid-jobs .card {
+  height: auto;
+}
+.grid-jobs .swatch {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  vertical-align: -2px;
+}
+
+/* Slide 1: one full-slide method per step below the problem statement. */
+.localization-method {
+  gap: 16px;
+}
+.localization-body {
+  display: grid;
+  grid-template-columns: 760px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+.localization-details {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.reveal .localization-body img {
+  display: block;
+  width: 760px;
+  height: 428px;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+}
+.localization-details .localization-source {
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.localization-details dl {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 24px 0;
+  margin: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--grey-dark);
+  font-size: var(--fs-body);
+  line-height: 1.3;
+}
+.localization-details dt {
+  font-weight: 700;
+}
+.localization-details dd {
+  margin: 0;
+}
+.localization-study {
+  padding-top: 12px;
+  border-top: 2px solid var(--elec-3);
+  line-height: 1.3;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -0.667px;
+  line-height: 1.09;
+  text-transform: none;
+  color: var(--ink);
+}
+.reveal h2 {
+  font-size: var(--fs-title);
+  margin-bottom: 8px;
+}
+.reveal h3 {
+  font-size: var(--fs-body);
+  letter-spacing: 0;
+  line-height: 1.21;
+}
+
+.reveal p {
+  margin: 0;
+}
+.reveal ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10.67px;
+}
+.reveal ul li {
+  position: relative;
+  padding-left: 28px;
+}
+.reveal ul li::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.reveal strong {
+  font-weight: 700;
+}
+.reveal .small {
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.reveal .muted {
+  color: var(--ink-2);
+}
+.reveal .mark {
+  background: var(--aalto-elec);
+  padding: 0 0.18em;
+  font-weight: 700;
+}
+.reveal .nowrap {
+  white-space: nowrap;
+}
+
+.grow {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.cols {
+  display: grid;
+  gap: 40px;
+  align-items: start;
+}
+.cols-2 {
+  grid-template-columns: 1fr 1fr;
+}
+.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.reveal .progress {
+  height: 4px;
+  color: var(--aalto-elec);
+  background: transparent;
+}
+
+/* Title slide, as the template's "Title Slide" layout on the accent colour:
+   logo top left, short rule, title bottom-anchored at y = 360, subtitle text below it. */
+.frame.title {
+  display: block;
+  padding: 0;
+  background: none;
+}
+.frame.title .aalto-logo {
+  position: absolute;
+  left: 43px;
+  top: 45px;
+  width: 279.1px;
+  height: 60.5px;
+  display: block;
+}
+.frame.title .title-block {
+  position: absolute;
+  left: 43px;
+  bottom: 360px;
+  width: 1028px;
+}
+.frame.title .title-block::before {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin-bottom: 26px;
+  background: var(--ink);
+}
+.frame.title h1 {
+  font-size: var(--fs-title);
+  line-height: 1.21;
+}
+.frame.title .sub-block {
+  position: absolute;
+  left: 43px;
+  top: 384px;
+  width: 1028px;
+}
+.frame.title .authors {
+  font-size: var(--fs-body);
+}
+.frame.title .meta {
+  font-size: var(--fs-small);
+  margin-top: 14px;
+}
+.frame.closing a {
+  color: var(--ink);
+  text-underline-offset: 0.16em;
+}
+.frame.closing .closing-acknowledgement {
+  position: absolute;
+  left: var(--margin);
+  right: var(--margin);
+  bottom: 110px;
+  line-height: 1.3;
+}
+
+/* Figures */
+.reveal figure {
+  margin: 0;
+}
+.reveal figure img,
+.reveal figure svg {
+  display: block;
+  max-width: 100%;
+}
+.reveal figcaption {
+  margin-top: 8px;
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+  line-height: 1.21;
+}
+.reveal img.photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Shared corridor setting for the problem and propagation scenario. */
+.anchor-frame {
+  gap: 18px;
+}
+.anchor-scenario {
+  display: block;
+}
+.anchor-scenario text {
+  paint-order: stroke;
+  stroke-linejoin: round;
+}
+.anchor-ranges text {
+  fill-opacity: 1;
+}
+.anchor-explanation {
+  position: relative;
+  height: 76px;
+}
+.anchor-explanation > p {
+  position: absolute;
+  inset: 0;
+}
+/* Reveal normally leaves fade-in-then-out at its initial appearance in print.
+   A printed page uses the final explanation, with both diagram reveals visible. */
+:is(.video-print-view, .print-pdf) .anchor-explanation > p:not(:last-child) {
+  display: none;
+}
+:is(.video-print-view, .print-pdf) .anchor-explanation > p:last-child {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+:is(.video-print-view, .print-pdf) .anchor-scenario .fragment {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Slides 7 and 9: a figure on the left, and on the right a column that ends with the
+   illustrative clip of the same thing, always in view. The column is as tall as the slide body,
+   so the clip sits at its foot and the slide 7 photo takes whatever height is left over. */
+.setup-cols {
+  align-items: stretch;
+}
+.setup-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-height: 0;
+}
+.setup-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.setup-media {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 0;
+}
+.setup-photo {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+/* The photo is portrait, so the crop is biased up to keep the BD1 and BD2 labels,
+   the RX label and its antenna. */
+.reveal .setup-photo .photo {
+  object-position: center 15%;
+}
+.reveal .inline-video {
+  position: relative;
+  flex: 0 0 auto;
+}
+.reveal .inline-video video,
+.video-print-still img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+/* Slide 9 carries its numbers in the same column, so its clip hangs from the bottom,
+   level with the foot of the chart. */
+.estimate-media {
+  gap: 18px;
+}
+.estimate-media .inline-video,
+.estimate-media .video-print-still {
+  width: 500px;
+  margin-top: auto;
+}
+.reveal video {
+  display: block;
+  width: 100%;
+  max-width: 788px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
+.video-print-still {
+  display: none !important;
+}
+
+/* reveal.js print mode also runs on screen before the browser print dialog. */
+:is(.video-print-view, .print-pdf) .reveal video,
+:is(.video-print-view, .print-pdf) .inline-video {
+  display: none !important;
+}
+/* The still takes the clip's slot in the stack. */
+:is(.video-print-view, .print-pdf) .video-print-still {
+  display: block !important;
+}
+
+/* A column of render frames, each with its label set into the corner */
+.shots {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.shot {
+  position: relative;
+}
+.reveal .shot figcaption {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 1px 9px;
+  background: var(--aalto-white);
+  color: var(--ink);
+}
+
+/* Cards: term cards on the model slide, stage cards on the pipeline slide */
+.card {
+  background: var(--wash);
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--fs-small);
+  line-height: 1.3;
+  height: 100%;
+  box-sizing: border-box;
+}
+.card.accent {
+  background: var(--elec-wash);
+}
+.card .term {
+  font-size: var(--fs-body);
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+}
+.card h3 {
+  font-size: var(--fs-small);
+  letter-spacing: -0.01em;
+}
+.card .how {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--grey-dark);
+  font-weight: 700;
+}
+.card.accent .how {
+  border-top-color: var(--elec-3);
+}
+
+.stage-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-right: 10px;
+  background: var(--aalto-elec);
+  font-weight: 700;
+  font-size: var(--fs-small);
+  flex: none;
+}
+.stage-head {
+  display: flex;
+  align-items: center;
+}
+.stages {
+  display: grid;
+  grid-template-columns: 1fr 34px 1fr 34px 1fr;
+  align-items: stretch;
+}
+.stages .arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equation {
+  font-size: 36px;
+  padding: 4px 0;
+}
+.equation.sm {
+  font-size: 25px;
+}
+/* Slide 5.1: distance-trend symbols sit below the four term panels. */
+.observation-frame {
+  gap: 14px;
+}
+.observation-symbols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.observation-symbols > div {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.observation-symbols dt {
+  flex: none;
+}
+.observation-symbols dd {
+  margin: 0;
+}
+.observation-terms {
+  align-items: stretch;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.observation-terms .card {
+  padding: 14px 20px 16px;
+}
+.observation-terms .term {
+  min-height: 38px;
+}
+/* Pipeline slide: the minimisation beside a key to its terms, one term per row */
+.dp-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 44px;
+  align-items: center;
+}
+.dp-terms {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px 16px;
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.3;
+}
+.dp-terms dd {
+  margin: 0;
+}
+/* Slide 6.1: one row per cost, as its name, its definition and how to read it */
+.cost-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.cost-rows .card {
+  display: grid;
+  grid-template-columns: 256px minmax(0, 1fr) 310px;
+  gap: 24px;
+  align-items: center;
+  height: auto;
+  padding: 12px 20px;
+}
+.cost-rows .equation {
+  padding: 0;
+  font-size: 23px;
+  white-space: nowrap;
+}
+/* Slide 6.2: the cross-band correlation pair, as two bars on a common 0 to 1 track */
+.band-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.band-evidence-head {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+/* A statement set off by the template's short rule */
+.callout::before {
+  content: "";
+  display: block;
+  width: 42px;
+  height: 3px;
+  margin-bottom: 12px;
+  background: var(--ink);
+}
+
+/* Key figures */
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat .value {
+  font-size: 84px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.stat .label {
+  font-size: var(--fs-small);
+  color: var(--ink-2);
+}
+
+/* Tables */
+.reveal table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--fs-small);
+}
+.reveal table th,
+.reveal table td {
+  padding: 7px 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.reveal table th.l,
+.reveal table td.l {
+  font-variant-numeric: normal;
+  white-space: nowrap;
+}
+.reveal sub {
+  font-size: 0.72em;
+  vertical-align: sub;
+  line-height: 0;
+}
+.reveal table th {
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink);
+}
+.reveal table th.l,
+.reveal table td.l {
+  text-align: left;
+}
+.reveal table tr.ours td {
+  background: var(--elec-wash);
+}
+.reveal table.dense {
+  font-size: 16px;
+}
+.reveal table.dense th,
+.reveal table.dense td {
+  padding: 6px 4px;
+}
+.reveal table .band {
+  text-align: center;
+  border-left: 10px solid var(--aalto-white);
+}
+
+/* Inline SVG drawings and the chart share these text styles */
+svg text {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  fill: var(--ink);
+}
+svg .t-body {
+  font-size: 22px;
+}
+svg .t-small {
+  font-size: 18px;
+}
+svg .t-bold {
+  font-weight: 700;
+}
+svg .t-muted {
+  fill: var(--ink-2);
+}
+svg .num {
+  font-variant-numeric: tabular-nums;
+}
+/* Labels drawn over a render: a white halo keeps them readable on walls and floors */
+svg .t-halo text {
+  paint-order: stroke;
+  stroke: var(--aalto-white);
+  stroke-linejoin: round;
+}
+
+.legend {
+  display: flex;
+  gap: 28px;
+  font-size: var(--fs-small);
+  align-items: center;
+}
+/* The keys stay on one line; only a trailing muted qualifier wraps. */
+.legend > span:not(.muted) {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+.legend .key {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+  vertical-align: -2px;
+}
+.legend .line {
+  height: 5px;
+  width: 30px;
+  vertical-align: 5px;
+}
+
+.backup-tag {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--ink-3);
+}
+
+.reveal .fragment.fade-in {
+  transition: opacity 0.15s ease-out;
+}
+
+@media print {
+  .reveal .progress {
+    display: none;
+  }
+  .reveal video,
+  .inline-video {
+    display: none !important;
+  }
+  .video-print-still {
+    display: block !important;
+  }
+}

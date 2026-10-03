@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Node (the deck has no dependencies; nothing should appear here)
+node_modules/
+npm-debug.log*
+
+# GitHub Pages build output
+_site/
+
+# Local exports
+*.pdf

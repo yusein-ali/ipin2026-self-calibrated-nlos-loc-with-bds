@@ -1,0 +1,10 @@
+{
+  "name": "ipin2026-presentation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IPIN 2026 talk: self-calibrated indoor tracking from backscatter fiducials",
+  "type": "module",
+  "scripts": {
+    "start": "node serve.mjs"
+  }
+}
